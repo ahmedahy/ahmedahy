@@ -1,0 +1,27 @@
+// Define variables
+int phPin = A0; // Set pH sensor input pin
+int motorPin = 9; // Set motor input pin
+float threshold = 7.0; // Set pH threshold value
+
+void setup() {
+  pinMode(motorPin, OUTPUT); // Set motor pin as output
+  Serial.begin(9600); // Initialize serial communication
+}
+
+void loop() {
+  float phValue = analogRead(phPin); // Read pH value from sensor
+  phValue = map(phValue, 0, 1023, 0, 14); // Convert value to pH range (0-14)
+
+  Serial.print("pH value: ");
+  Serial.println(phValue);
+
+  if (phValue > threshold) {
+    digitalWrite(motorPin, HIGH); // Turn on the motor
+    Serial.println("Turn on the pump");
+  } else {
+    digitalWrite(motorPin, LOW); // Turn off the motor
+    Serial.println("Turn off the pump");
+  }
+
+  delay(1000); // Delay for one second
+}
